@@ -11,7 +11,7 @@ main(int argc, char **argv) {
 	upng_t *png;
 	char *path = argv[1];
 	unsigned int fg, bg;
-	unsigned int i, x, max, m = 0;
+	unsigned int i, x, max;
 
 	setlocale(LC_ALL, "");
 
@@ -41,11 +41,10 @@ main(int argc, char **argv) {
 				upng_get_buffer(png)[i+2+upng_get_width(png) * upng_get_components(png)]);
 
 			printf("\033[38;5;%dm\033[48;5;%dm%lc\033[0m",
-					closest(m ? fg : bg), closest(m ? bg : fg), 0x2580);
+					closest(bg), closest(fg), 0x2580);
 
 			x++;
 			if ((x % upng_get_width(png) == 0)) {
-				m = !m;
 				i += upng_get_width(png) * upng_get_components(png);
 				putchar('\n');
 			}
