@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <locale.h>
 #include <stdio.h>
 #include <err.h>
 
@@ -10,7 +11,9 @@ main(int argc, char **argv) {
 	upng_t *png;
 	char *path = argv[1];
 	unsigned int fg, bg;
-	unsigned int i, x, max;
+	unsigned int i, x, max, m = 0;
+
+	setlocale(LC_ALL, "");
 
 	png = upng_new_from_file(path);
 	if (png != NULL) {
@@ -37,12 +40,15 @@ main(int argc, char **argv) {
 				upng_get_buffer(png)[i+1+(upng_get_width(png) * upng_get_components(png))],
 				upng_get_buffer(png)[i+2+upng_get_width(png) * upng_get_components(png)]);
 
-			printf("\033[48;5;%dm\033[38;5;%dm\342\226\204\033[0m",
-					closest(bg), closest(fg));
+			printf("\033[38;5;%dm\033[48;5;%dm%lc\033[0m",
+					closest(m ? fg : bg), closest(m ? bg : fg), 0x2580);
 
 			x++;
-			if ((x % upng_get_width(png) == 0))
+			if ((x % upng_get_width(png) == 0)) {
+				m = !m;
+				i += upng_get_width(png) * upng_get_components(png);
 				putchar('\n');
+			}
 		}
 
 		upng_free(png);
