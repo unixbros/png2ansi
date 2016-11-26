@@ -3,8 +3,9 @@
 #include <stdio.h>
 #include <err.h>
 
-#include "upng.h"
+#include "arg.h"
 #include "hex2ansi.h"
+#include "upng.h"
 
 int
 main(int argc, char **argv) {
