@@ -37,7 +37,7 @@ main(int argc, char **argv) {
 				upng_get_buffer(png)[i+1+(upng_get_width(png) * upng_get_components(png))],
 				upng_get_buffer(png)[i+2+upng_get_width(png) * upng_get_components(png)]);
 
-			printf("\033[48;5;%dm\033[38;5;%dm▄\033[0m",
+			printf("\033[48;5;%dm\033[38;5;%dm\342\226\204\033[0m",
 					closest(bg), closest(fg));
 
 			x++;
