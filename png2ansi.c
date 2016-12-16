@@ -34,6 +34,8 @@ main(int argc, char **argv) {
 		max = upng_get_size(png);
 
 		for (i = 0; i < max - (upng_get_width(png) * upng_get_components(png)); i += upng_get_components(png)) {
+			x++;
+
 			bg = rgb2hex(upng_get_buffer(png)[i],
 				upng_get_buffer(png)[i+1],
 				upng_get_buffer(png)[i+2]);
@@ -41,13 +43,15 @@ main(int argc, char **argv) {
 				upng_get_buffer(png)[i+1+(upng_get_width(png) * upng_get_components(png))],
 				upng_get_buffer(png)[i+2+upng_get_width(png) * upng_get_components(png)]);
 
-			printf("\033[38;5;%dm\033[48;5;%dm%lc\033[0m",
+			if (upng_get_buffer(png)[i+3] > 85) {
+				printf("\033[38;5;%dm\033[48;5;%dm%lc\033[0m",
 					closest(bg), closest(fg), 0x2580);
+			} else
+				putchar(' ');
 
-			x++;
 			if ((x % upng_get_width(png) == 0)) {
-				i += upng_get_width(png) * upng_get_components(png);
 				putchar('\n');
+				i += upng_get_width(png) * upng_get_components(png);
 			}
 		}
 
